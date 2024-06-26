@@ -1,6 +1,10 @@
 $HOSTNAME = ""
 params.outdir = 'results'  
 
+
+params.make_igblast_ndm.ndm_chain = params.ndm_chain
+
+
 // Process Parameters for First_Alignment_IgBlastn:
 params.First_Alignment_IgBlastn.num_threads = "10"
 params.First_Alignment_IgBlastn.ig_seqtype = "Ig"
