@@ -21,15 +21,19 @@ The pipeline can be devided into seven main componenet:
 
 > In this section, clones are infered for the annotated repertoire, and a single representative for each clone whith the least number of mutation is chosen.
 
-**5. Genotype inference**
+**5. Pre genotype filter**
+
+> In this section, we take only reads with: No mutation within the V region, Single allele assignment, Starting from position one of the V germline
+
+**6. Genotype inference**
 
 > In this section, genotypes are inferred for each of the IG calls: V, D, and J using TIgGER Bayesian inferernce tool, and a personal reference set is created.
 
-**6. Third repertoire alignment and annotation with the personal reference set.**
+**7 Third repertoire alignment and annotation with the personal reference set.**
 
 > In this section, the repertoire sequences are annotated using IgBlast and MakeDb (presto) against the personal reference set from step 5.
 
-**7. OGRDB statistics.**
+**8. OGRDB statistics**
 
 > the reperotire statistics are deduced using ogrdbstats.
 
@@ -40,17 +44,15 @@ The pipeline can be devided into seven main componenet:
 2. heavy_chain (yes/no)
 3. chain - (IGHV/IGLV/IGKV)
 4. Reference set files for IG*V, IG*D, and IG*J alleles in fasta format for the right chain.
-5. auxiliary_data and custom_internal_data for the right chain.
 
 ### Output:
 
-1. The aligned repertoire with the personal reference set.
-2. The aligned repertoire with the init reference set.
-3. A genotype reports
-4. A log files
-5. An ogrdb statistics report for the init aligned repertoire
-6. An ogrdb statistics report for the final aligned repertoire
-7. pipeline_statistic.csv - table of pass and fail reads for some of the steps.
+
+1. The aligned repertoire with the init reference set.
+2. A genotype reports
+3. A log files
+4. An ogrdb statistics report for the init aligned repertoire
+5. pipeline_statistic.csv - table of pass and fail reads for some of the steps.
 
 ### Docker images: 
 
