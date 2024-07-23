@@ -676,14 +676,14 @@ if(params.container.startsWith("peresay")){
 }
 process Undocumented_Alleles_J {
 
-publishDir params.outdir, mode: 'copy', saveAs: {filename -> if (filename =~ /.*novel-passed.tsv$/) "novel_report/$filename"}
+publishDir params.outdir, mode: 'copy', saveAs: {filename -> if (filename =~ /.*novel-passed_J.tsv$/) "novel_report/$filename"}
 input:
  set val(name),file(airr_file) from g0_19_outputFileTSV0_g_91
  set val(v_germline_name), file(J_germline_file) from g_4_germlineFastaFile_g_91
 
 output:
- set val(name),file("*novel-passed.tsv") optional true  into g_91_outputFileTSV00
- set val("v_germline"), file("J_novel_germline.fasta") optional true  into g_91_germlineFastaFile1_g_92, g_91_germlineFastaFile1_g11_17, g_91_germlineFastaFile1_g11_12
+ set val(name),file("*novel-passed_J.tsv") optional true  into g_91_outputFileTSV00
+ set val("v_germline"), file("J_novel_germline.fasta") optional true  into g_91_germlineFastaFile1_g_95, g_91_germlineFastaFile1_g11_17, g_91_germlineFastaFile1_g11_12
 
 script:
 chain = params.Undocumented_Alleles_J.chain
@@ -843,11 +843,114 @@ if (class(novel) != 'try-error') {
 
 }
 
+g_91_germlineFastaFile1_g_95= g_91_germlineFastaFile1_g_95.ifEmpty([""]) 
+
+
+process change_names_fasta_J {
+
+input:
+ set val(name), file(v_ref) from g_91_germlineFastaFile1_g_95
+
+output:
+ set val(name), file("new_J_novel_germline*")  into g_95_germlineFastaFile0_g_92
+ file "changes.csv" optional true  into g_95_outputFileCSV11
+
+
+script:
+
+readArray_v_ref = v_ref.toString().split(' ')[0]
+
+if(readArray_v_ref.endsWith("fasta")){
+
+"""
+#!/usr/bin/env python3 
+
+import pandas as pd
+from Bio.Seq import Seq
+from Bio.SeqRecord import SeqRecord
+from Bio import SeqIO
+from hashlib import sha256 
+
+
+def fasta_to_dataframe(file_path):
+    data = {'ID': [], 'Sequence': []}
+    with open(file_path, 'r') as file:
+        for record in SeqIO.parse(file, 'fasta'):
+            data['ID'].append(record.id)
+            data['Sequence'].append(str(record.seq))
+
+        df = pd.DataFrame(data)
+        return df
+
+
+file_path = '${readArray_v_ref}'  # Replace with the actual path
+df = fasta_to_dataframe(file_path)
+
+
+for index, row in df.iterrows():   
+  if len(row['ID']) > 50:
+    print("hoo")
+    print(row['ID'])
+    row['ID'] = row['ID'].split('*')[0] + '*' + row['ID'].split('*')[1].split('_')[0] + '_' + sha256(row['Sequence'].encode('utf-8')).hexdigest()[-4:]
+
+
+def dataframe_to_fasta(df, output_file, description_column='Description', default_description=''):
+    records = []
+
+    for index, row in df.iterrows():
+        sequence_record = SeqRecord(Seq(row['Sequence']), id=row['ID'])
+
+        # Use the description from the DataFrame if available, otherwise use the default
+        description = row.get(description_column, default_description)
+        sequence_record.description = description
+
+        records.append(sequence_record)
+
+    with open(output_file, 'w') as output_handle:
+        SeqIO.write(records, output_handle, 'fasta')
+
+def save_changes_to_csv(old_df, new_df, output_file):
+    changes = []
+    for index, (old_row, new_row) in enumerate(zip(old_df.itertuples(), new_df.itertuples()), 1):
+        if old_row.ID != new_row.ID:
+            changes.append({'Row': index, 'Old_ID': old_row.ID, 'New_ID': new_row.ID})
+    
+    changes_df = pd.DataFrame(changes)
+    if not changes_df.empty:
+        changes_df.to_csv(output_file, index=False)
+        
+output_file_path = 'new_V_novel_germline.fasta'
+
+dataframe_to_fasta(df, output_file_path)
+
+
+file_path = '${readArray_v_ref}'  # Replace with the actual path
+old_df = fasta_to_dataframe(file_path)
+
+output_csv_file = "changes.csv"
+save_changes_to_csv(old_df, df, output_csv_file)
+
+"""
+} else{
+	
+"""
+#!/usr/bin/env python3 
+	
+
+file_path = 'new_J_novel_germline.txt'
+
+with open(file_path, 'w'):
+    pass
+    
+"""    
+}    
+}
+
 
 process make_igblast_annotate_j_second_alignment {
 
 input:
- set val(db_name), file(germlineFile) from g_91_germlineFastaFile1_g_92
+ set val(db_name), file(germlineFile) from g_95_germlineFastaFile0_g_92
 
 output:
  file aux_file  into g_92_outputFileTxt0_g11_9
