@@ -844,7 +844,7 @@ if (class(novel) != 'try-error') {
 }
 
 
-process make_igblast_annotate_j {
+process make_igblast_annotate_j_second_alignment {
 
 input:
  set val(db_name), file(germlineFile) from g_91_germlineFastaFile1_g_92
