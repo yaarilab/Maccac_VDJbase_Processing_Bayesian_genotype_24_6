@@ -835,7 +835,7 @@ if (class(novel) != 'try-error') {
 	
 	
 }else{
-	file.copy(from = '${v_germline_file}', to = paste0('./','${out_novel_germline}','.fasta'))
+	file.copy(from = '${J_germline_file}', to = paste0('./','${out_novel_germline}','.fasta'))
 	#file.create(paste0('${out_novel_germline}','.txt'))
 }
 """
