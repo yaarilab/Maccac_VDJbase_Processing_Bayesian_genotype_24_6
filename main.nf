@@ -919,7 +919,7 @@ def save_changes_to_csv(old_df, new_df, output_file):
     if not changes_df.empty:
         changes_df.to_csv(output_file, index=False)
         
-output_file_path = 'new_V_novel_germline.fasta'
+output_file_path = 'new_J_novel_germline.fasta'
 
 dataframe_to_fasta(df, output_file_path)
 
