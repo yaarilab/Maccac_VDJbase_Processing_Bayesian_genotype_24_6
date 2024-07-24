@@ -683,7 +683,7 @@ input:
 
 output:
  set val(name),file("*novel-passed_J.tsv") optional true  into g_91_outputFileTSV00
- set val("v_germline"), file("J_novel_germline.fasta") optional true  into g_91_germlineFastaFile1_g_95, g_91_germlineFastaFile1_g11_17, g_91_germlineFastaFile1_g11_12
+ set val("v_germline"), file("J_novel_germline.fasta") optional true  into g_91_germlineFastaFile1_g_95
 
 script:
 chain = params.Undocumented_Alleles_J.chain
@@ -852,7 +852,7 @@ input:
  set val(name), file(v_ref) from g_91_germlineFastaFile1_g_95
 
 output:
- set val(name), file("new_J_novel_germline*")  into g_95_germlineFastaFile0_g_92
+ set val(name), file("new_J_novel_germline*")  into g_95_germlineFastaFile0_g_92, g_95_germlineFastaFile0_g11_17, g_95_germlineFastaFile0_g11_12
  file "changes.csv" optional true  into g_95_outputFileCSV11
 
 
@@ -970,7 +970,7 @@ annotate_j ${germlineFile} ${aux_file}
 process Second_Alignment_J_MakeBlastDb {
 
 input:
- set val(db_name), file(germlineFile) from g_91_germlineFastaFile1_g11_17
+ set val(db_name), file(germlineFile) from g_95_germlineFastaFile0_g11_17
 
 output:
  file "${db_name}"  into g11_17_germlineDb0_g11_9
@@ -1636,7 +1636,7 @@ input:
  set val(name_igblast),file(igblastOut) from g11_9_igblastOut0_g11_12
  set val(name1), file(v_germline_file) from g_70_germlineFastaFile0_g11_12
  set val(name2), file(d_germline_file) from g_3_germlineFastaFile_g11_12
- set val(name3), file(j_germline_file) from g_91_germlineFastaFile1_g11_12
+ set val(name3), file(j_germline_file) from g_95_germlineFastaFile0_g11_12
 
 output:
  set val(name_igblast),file("*_db-pass.tsv") optional true  into g11_12_outputFileTSV0_g11_43, g11_12_outputFileTSV0_g11_47, g11_12_outputFileTSV0_g14_0, g11_12_outputFileTSV0_g14_9
