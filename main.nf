@@ -683,7 +683,7 @@ input:
 
 output:
  set val(name),file("*novel-passed_J.tsv") optional true  into g_91_outputFileTSV00
- set val("v_germline"), file("J_novel_germline.fasta") optional true  into g_91_germlineFastaFile1_g_95
+ set val("j_germline"), file("J_novel_germline.fasta") optional true  into g_91_germlineFastaFile1_g_95
 
 script:
 chain = params.Undocumented_Alleles_J.chain
