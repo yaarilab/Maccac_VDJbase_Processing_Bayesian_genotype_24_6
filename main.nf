@@ -149,7 +149,7 @@ ch_empty_file_3 = file("$baseDir/.emptyfiles/NO_FILE_3", hidden:true)
 
 Channel.fromPath(params.v_germline_file, type: 'any').map{ file -> tuple(file.baseName, file) }.into{g_2_germlineFastaFile_g_8;g_2_germlineFastaFile_g_68;g_2_germlineFastaFile_g_89;g_2_germlineFastaFile_g0_22;g_2_germlineFastaFile_g0_43;g_2_germlineFastaFile_g0_47;g_2_germlineFastaFile_g0_12}
 Channel.fromPath(params.d_germline, type: 'any').map{ file -> tuple(file.baseName, file) }.into{g_3_germlineFastaFile_g_75;g_3_germlineFastaFile_g14_0;g_3_germlineFastaFile_g14_1;g_3_germlineFastaFile_g11_16;g_3_germlineFastaFile_g11_12;g_3_germlineFastaFile_g0_16;g_3_germlineFastaFile_g0_12}
-Channel.fromPath(params.j_germline, type: 'any').map{ file -> tuple(file.baseName, file) }.into{g_4_germlineFastaFile_g_31;g_4_germlineFastaFile_g_88;g_4_germlineFastaFile_g_91;g_4_germlineFastaFile_g14_0;g_4_germlineFastaFile_g14_1;g_4_germlineFastaFile_g0_17;g_4_germlineFastaFile_g0_12}
+Channel.fromPath(params.j_germline, type: 'any').map{ file -> tuple(file.baseName, file) }.into{g_4_germlineFastaFile_g_31;g_4_germlineFastaFile_g_88;g_4_germlineFastaFile_g_91;g_4_germlineFastaFile_g0_17;g_4_germlineFastaFile_g0_12}
 Channel.fromPath(params.airr_seq, type: 'any').map{ file -> tuple(file.baseName, file) }.into{g_44_fastaFile_g_73;g_44_fastaFile_g0_9;g_44_fastaFile_g0_12}
 
 
@@ -852,7 +852,7 @@ input:
  set val(name), file(v_ref) from g_91_germlineFastaFile1_g_95
 
 output:
- set val(name), file("new_J_novel_germline*")  into g_95_germlineFastaFile0_g_92, g_95_germlineFastaFile0_g11_17, g_95_germlineFastaFile0_g11_12
+ set val(name), file("new_J_novel_germline*")  into g_95_germlineFastaFile0_g_92, g_95_germlineFastaFile0_g11_17, g_95_germlineFastaFile0_g11_12, g_95_germlineFastaFile0_g14_0, g_95_germlineFastaFile0_g14_1
  file "changes.csv" optional true  into g_95_outputFileCSV11
 
 
@@ -2064,7 +2064,7 @@ rmarkdown::render("${rmk}", clean=TRUE, output_format="html_document", output_di
 
 g_70_germlineFastaFile0_g14_0= g_70_germlineFastaFile0_g14_0.ifEmpty([""]) 
 g_3_germlineFastaFile_g14_0= g_3_germlineFastaFile_g14_0.ifEmpty([""]) 
-g_4_germlineFastaFile_g14_0= g_4_germlineFastaFile_g14_0.ifEmpty([""]) 
+g_95_germlineFastaFile0_g14_0= g_95_germlineFastaFile0_g14_0.ifEmpty([""]) 
 
 
 process Clone_AIRRseq_First_CreateGermlines {
@@ -2073,7 +2073,7 @@ input:
  set val(name),file(airrFile) from g11_12_outputFileTSV0_g14_0
  set val(name1), file(v_germline_file) from g_70_germlineFastaFile0_g14_0
  set val(name2), file(d_germline_file) from g_3_germlineFastaFile_g14_0
- set val(name3), file(j_germline_file) from g_4_germlineFastaFile_g14_0
+ set val(name3), file(j_germline_file) from g_95_germlineFastaFile0_g14_0
 
 output:
  set val(name),file("*_germ-pass.tsv")  into g14_0_outputFileTSV0_g14_2
@@ -2191,7 +2191,7 @@ DefineClones.py -d ${airrFile} \
 
 g_70_germlineFastaFile0_g14_1= g_70_germlineFastaFile0_g14_1.ifEmpty([""]) 
 g_3_germlineFastaFile_g14_1= g_3_germlineFastaFile_g14_1.ifEmpty([""]) 
-g_4_germlineFastaFile_g14_1= g_4_germlineFastaFile_g14_1.ifEmpty([""]) 
+g_95_germlineFastaFile0_g14_1= g_95_germlineFastaFile0_g14_1.ifEmpty([""]) 
 
 
 process Clone_AIRRseq_Second_CreateGermlines {
@@ -2201,7 +2201,7 @@ input:
  set val(name),file(airrFile) from g14_2_outputFileTSV0_g14_1
  set val(name1), file(v_germline_file) from g_70_germlineFastaFile0_g14_1
  set val(name2), file(d_germline_file) from g_3_germlineFastaFile_g14_1
- set val(name3), file(j_germline_file) from g_4_germlineFastaFile_g14_1
+ set val(name3), file(j_germline_file) from g_95_germlineFastaFile0_g14_1
 
 output:
  set val(name),file("*_germ-pass.tsv")  into g14_1_outputFileTSV0_g14_9
