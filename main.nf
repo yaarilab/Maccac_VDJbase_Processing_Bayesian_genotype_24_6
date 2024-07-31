@@ -1222,6 +1222,7 @@ g_8_germlineFastaFile1_g_70= g_8_germlineFastaFile1_g_70.ifEmpty([""])
 
 process change_names_fasta {
 
+publishDir params.outdir, mode: 'copy', saveAs: {filename -> if (filename =~ /new_V_novel_germline.*$/) "v_refs/$filename"}
 input:
  set val(name), file(v_ref) from g_8_germlineFastaFile1_g_70
 
